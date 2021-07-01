@@ -27,29 +27,21 @@ namespace NewsletterProject.Services
                     newUser.Id = 0;
                     _dbContext.Newsletter.Add(newUser);
                     _dbContext.SaveChanges();
-                    //return true;
                 }
                 else
                 {
-                    throw new EmailIsAlreadyAddedException("This email address is already added!");
-                    //return false;
+                    throw new EmailIsAlreadyAddedException("This email address is already signed up!");
                 }
             }
             catch (Exception e)
             {
                 throw e;
-                //return false;
             }
         }
 
         public void Dispose()
         {
-            _dbContext.Dispose();
-        }
 
-        ~NewsletterDbService()
-        {
-            Console.WriteLine("I am dead!");
         }
     }
     public class EmailIsAlreadyAddedException : Exception

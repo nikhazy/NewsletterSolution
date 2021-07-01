@@ -9,6 +9,9 @@ namespace NewsletterProject.Models
 {
     public class NewsletterModel
     {
+        /// <summary>
+        /// This ID is just for database usage!
+        /// </summary>
         [Key]
         public int Id { get; set; }
 
@@ -26,7 +29,7 @@ namespace NewsletterProject.Models
         /// This variable shows how the user heard about us
         /// </summary>
 
-        [Required(ErrorMessage = "How you heard about us field is required!")]
+        [Required(ErrorMessage = "The \"How you heard about us\" field is required!")]
         [Column("HowTheyHeard")]
         public string HowTheyHeardAboutUs {
             get { return howTheyHeardAboutUs; }
