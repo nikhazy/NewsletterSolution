@@ -1,0 +1,123 @@
+﻿@page "/"
+@using NewsletterProject.Models
+@using NewsletterProject.Services
+@inject NewsletterDbService newsLetterDbService
+
+    <div style="display:flex; flex-direction: column; align-items:center">
+
+        <div style="margin-bottom:20px; text-align: center; width: 100%">
+            <h1 class="header-title">JOIN OUR NEWSLETTER!</h1>
+
+            <h3 style="color:red; text-align: center">@Warning</h3>
+        </div>
+
+
+        @if (!Successful)
+        {
+            <h5>If you would like to sign up to a newsletter, please fill the folowing form!</h5>
+
+            <div style="max-width:600px; width:100%">
+                <div class="newsletter-logo">
+                    <img src="images/envelope.png" alt="Email logo" style="width:60%; left: 20%; top: 20%; position:relative" />
+                </div>
+                <div class="newsletter-background">
+
+                    <EditForm Model="@newsLetterModel" OnValidSubmit="@HandleValidTimeSubmit">
+                        <DataAnnotationsValidator />
+
+                        <div class="newsletter-element">
+                            <label for="email" style="font-weight:bold">Email address:</label>
+                            <ValidationMessage For="@(()=>newsLetterModel.EmailAddress)" />
+                            <input class="form-control shadow" maxlength="50" type="text" name="email" value="@newsLetterModel.EmailAddress" @onchange="(x=> SetEmailAdress(x.Value.ToString()))" />
+                        </div>
+
+                        <div class="newsletter-element">
+                            <label for="howToHeard" style="font-weight:bold">Please select how you heard about us:</label>
+                            <ValidationMessage For="@(()=>newsLetterModel.HowTheyHeardAboutUs)" />
+                            <select name="howToHeard" class="form-control shadow selectpicker" @onchange=@SetHowTheyHeardAboutUs>
+                                <option value="base">-Please select-</option>
+                                @foreach (string howTheyHeardItem in NewsletterModel.HowTheyHeardAboutUsPossibilities)
+                                {
+                                    <option value="@howTheyHeardItem">@howTheyHeardItem</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="newsletter-element">
+                            <label for="reason" style="font-weight:bold">Reason for signing up:</label>
+                            <ValidationMessage For="@(()=>newsLetterModel.ReasonForSigningUp)" />
+                            @*
+                    <input class="form-control shadow" maxlength="100" type="text" name="reason" value="@newsLetterModel.ReasonForSigningUp" @onchange="(x=> SetReasonForSignUp(x.Value.ToString()))" />
+                            *@
+                            <textarea class="form-control shadow" maxlength="200" style="min-height:50px" @bind="newsLetterModel.ReasonForSigningUp" />
+                        </div>
+
+                        <button class="btn btn-primary" style="display:block; width:100%; margin-top: 10px" type="submit">Sign Up!</button>
+                    </EditForm>
+                </div>
+            </div>
+        }
+        else
+        {
+
+            <h3 style="color:green; text-align: center">Signing up was successful!</h3>
+        }
+    </div>
+
+
+
+
+
+
+@code{
+
+    NewsletterModel newsLetterModel;
+    string Warning;
+    bool Successful;
+
+    protected override void OnInitialized()
+    {
+        newsLetterModel = new NewsletterModel();
+        Successful = false;
+    }
+
+    private void SetEmailAdress(string email)
+    {
+        newsLetterModel.EmailAddress = email;
+    }
+
+    private void SetHowTheyHeardAboutUs(ChangeEventArgs e)
+    {
+        if (e.Value.ToString() != "base")
+        {
+            newsLetterModel.HowTheyHeardAboutUs = e.Value.ToString();
+        }
+        else
+        {
+            newsLetterModel.HowTheyHeardAboutUs = null;
+        }
+    }
+
+    private void SetReasonForSignUp(string reason)
+    {
+        newsLetterModel.ReasonForSigningUp = reason;
+    }
+
+    private void HandleValidTimeSubmit()
+    {
+        try
+        {
+            newsLetterDbService.AddNewPersonToNewsletter(newsLetterModel);
+            Warning = null;
+            Successful = true;
+        }
+        catch(EmailIsAlreadyAddedException e)
+        {
+            Warning = e.Message;
+        }
+        catch (Exception e)
+        {
+            Warning = e.Message;
+        }
+    }
+}
