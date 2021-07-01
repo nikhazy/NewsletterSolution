@@ -4,34 +4,41 @@
 @using NewsletterProject.Services.DataAccess 
 @inject INewsletterDbService newsLetterDbService
 
+@*This is the container for the whole page*@
     <div style="display:flex; flex-direction: column; align-items:center">
 
+        @*This is the Welcome message and the place of the Warning*@
         <div style="margin-bottom:20px; text-align: center; width: 100%">
             <h1 class="header-title">JOIN OUR NEWSLETTER!</h1>
 
-            <h3 style="color:red; text-align: center">@Warning</h3>
+            <h3 style="color:red">@Warning</h3>
         </div>
 
-
+        @*Check, if the form is submitted correctly*@
         @if (!Successful)
         {
+            @*This is just a small explanation, what does this page do*@
             <h5>If you would like to sign up to the newsletter, please fill the following form!</h5>
 
             <div style="max-width:600px; width:100%">
+                @*This is just the envelope logo*@
                 <div class="newsletter-logo">
                     <img src="images/envelope_own.png" alt="Email logo" style="width:60%; left: 20%; top: 20%; position:relative" />
                 </div>
+
+                @*This is the body of the newsletter*@
                 <div class="newsletter-background">
 
                     <EditForm Model="@newsLetterModel" OnValidSubmit="@HandleValidTimeSubmit">
                         <DataAnnotationsValidator />
-
+                        @*This is the email adress field*@
                         <div class="newsletter-element">
                             <label for="email" style="font-weight:bold">Email address:</label>
                             <ValidationMessage For="@(()=>newsLetterModel.EmailAddress)" />
                             <input class="form-control shadow" maxlength="50" type="text" name="email" value="@newsLetterModel.EmailAddress" @onchange="(x=> SetEmailAdress(x.Value.ToString()))" />
                         </div>
 
+                        @*This is the HowYouHeardAboutUs field*@
                         <div class="newsletter-element">
                             <label for="howToHeard" style="font-weight:bold">Please select how you heard about us:</label>
                             <ValidationMessage For="@(()=>newsLetterModel.HowTheyHeardAboutUs)" />
@@ -44,12 +51,10 @@
                             </select>
                         </div>
 
+                        @*This is the reason of signing up field*@
                         <div class="newsletter-element">
                             <label for="reason" style="font-weight:bold">Reason for signing up:</label>
                             <ValidationMessage For="@(()=>newsLetterModel.ReasonForSigningUp)" />
-                            @*
-                    <input class="form-control shadow" maxlength="100" type="text" name="reason" value="@newsLetterModel.ReasonForSigningUp" @onchange="(x=> SetReasonForSignUp(x.Value.ToString()))" />
-                            *@
                             <textarea class="form-control shadow" maxlength="200" style="min-height:50px" @bind="newsLetterModel.ReasonForSigningUp" />
                         </div>
 
@@ -60,7 +65,7 @@
         }
         else
         {
-
+            @*This is the Successfull sign up message!*@
             <h3 style="color:green; text-align: center">Signing up was successful!</h3>
         }
     </div>
@@ -71,9 +76,19 @@
 
 
 @code{
-
+    /// <summary>
+    /// The model of the Form, this model countains the informations about the user 
+    /// </summary>
     NewsletterModel newsLetterModel;
+
+    /// <summary>
+    /// This is the warning message variable, if its not null, the page will show a red message
+    /// </summary>
     string Warning;
+
+    /// <summary>
+    /// This variable shows, if the Form was submitted successfully (the data is added to the database)
+    /// </summary>
     bool Successful;
 
     protected override void OnInitialized()
@@ -81,16 +96,24 @@
         newsLetterModel = new NewsletterModel();
         Successful = false;
     }
-
+    /// <summary>
+    /// This method set the email adress property of the NewsletterModel
+    /// </summary>
+    /// <param name="email">Input of the user</param>
     private void SetEmailAdress(string email)
     {
         newsLetterModel.EmailAddress = email;
     }
 
+    /// <summary>
+    /// This method set the "how they heard about us" property of the NewsletterModel
+    /// </summary>
     private void SetHowTheyHeardAboutUs(ChangeEventArgs e)
     {
+        //If the selected value is not base (the user selected an option)
         if (e.Value.ToString() != "base")
         {
+            //Assign the value of the "select" tag to the NewsLetterModel object
             newsLetterModel.HowTheyHeardAboutUs = e.Value.ToString();
         }
         else
@@ -98,7 +121,10 @@
             newsLetterModel.HowTheyHeardAboutUs = null;
         }
     }
-
+    /// <summary>
+    /// This method set the reason of signing up property of the NewsletterModel
+    /// </summary>
+    /// <param name="reason">User input(optional)</param>
     private void SetReasonForSignUp(string reason)
     {
         newsLetterModel.ReasonForSigningUp = reason;
@@ -108,16 +134,20 @@
     {
         try
         {
+            //Try to add the model to the database
             newsLetterDbService.AddNewPersonToNewsletter(newsLetterModel);
+            //If the data is successfully added to the database, set the status variables
             Warning = null;
             Successful = true;
         }
         catch(EmailIsAlreadyAddedException e)
         {
+            //If the email is already added, the program shows a waring message for the user
             Warning = e.Message;
         }
         catch (Exception e)
         {
+            //If there was any other problem with the database connection, this will show a waring for the user
             Warning = e.Message;
         }
     }

@@ -18,10 +18,12 @@ namespace NewsletterProject.Services
         {
             _dbContext = dbContext;
         }
+        
         public void AddNewPersonToNewsletter(NewsletterModel newUser)
         {
             try
             {
+                //Check if the database already contains the given email address
                 if(_dbContext.Newsletter.Where(x=>x.EmailAddress == newUser.EmailAddress).Count() == 0)
                 {
                     newUser.Id = 0;
@@ -35,6 +37,7 @@ namespace NewsletterProject.Services
             }
             catch (Exception e)
             {
+                //If any other error occured with the database connection I throw the exception
                 throw e;
             }
         }
