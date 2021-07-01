@@ -16,15 +16,5 @@ namespace NewsletterProject.Services.DataAccess
 
         public DbSet<NewsletterModel> Newsletter { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<NewsletterModel>(entity =>
-            {
-                entity.HasIndex(e => e.Id)
-                    .IsUnique();
-            });
-
-        }
-
     }
 }

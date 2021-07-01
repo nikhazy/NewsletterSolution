@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NewsletterProject.Services
 {
-    public class NewsletterDbService : IDisposable
+    public class NewsletterDbService : INewsletterDbService,IDisposable
     {
         private readonly NewsletterDbContext _dbContext;
 
