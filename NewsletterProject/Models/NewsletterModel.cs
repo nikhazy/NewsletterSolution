@@ -49,7 +49,7 @@ namespace NewsletterProject.Models
         public static List<string> HowTheyHeardAboutUsPossibilities = new List<string> { "Advert", "Word Of Mouth", "Other" };
 
         /// <summary>
-        /// This method set the HowTheyHeardAboutUs property. If the reason is not in the possibility list the result will be other
+        /// This method set the HowTheyHeardAboutUs property. If the reason is not in the possibility list or not null the result will be "Other"
         /// </summary>
         /// <param name="howTheyHeard">How the user heared from us</param>
         /// <returns></returns>
