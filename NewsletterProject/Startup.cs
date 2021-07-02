@@ -39,6 +39,8 @@ namespace NewsletterProject
             {
                 options.UseSqlite(Configuration.GetConnectionString("SqLite"));
             });
+
+            //I switched from MSSQL to SQLite to be sure it will run on ather machines
             //services.AddTransient<INewsletterDbService,NewsletterMsSqlDbService>();
             services.AddTransient<INewsletterDbService, NewsletterSqLiteDbService>();
         }

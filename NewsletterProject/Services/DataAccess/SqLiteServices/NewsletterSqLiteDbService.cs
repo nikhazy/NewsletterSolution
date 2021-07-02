@@ -7,7 +7,7 @@ using NewsletterProject.Services.DataAccess.Exceptions;
 
 namespace NewsletterProject.Services.DataAccess
 {
-    public class NewsletterSqLiteDbService : INewsletterDbService, IDisposable
+    public class NewsletterSqLiteDbService : INewsletterDbService
     {
 
         private readonly NewsletterSqLiteDbContext _dbContext;
@@ -15,6 +15,7 @@ namespace NewsletterProject.Services.DataAccess
         public NewsletterSqLiteDbService(NewsletterSqLiteDbContext dbContext)
         {
             _dbContext = dbContext;
+            //If there is no database, this method create it
             _dbContext.Database.EnsureCreated();
         }
 
@@ -41,9 +42,5 @@ namespace NewsletterProject.Services.DataAccess
             }
         }
 
-        public void Dispose()
-        {
-
-        }
     }
 }
