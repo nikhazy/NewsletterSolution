@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewsletterProject.Services.DataAccess;
 using Microsoft.Extensions.Logging;
+using NewsletterProject.Services.DataAccess.Exceptions;
 
 namespace NewsletterProject.Services
 {
-    public class NewsletterDbService : INewsletterDbService,IDisposable
+    public class NewsletterMsSqlDbService : INewsletterDbService,IDisposable
     {
         private readonly NewsletterDbContext _dbContext;
 
-        public NewsletterDbService(NewsletterDbContext dbContext)
+        public NewsletterMsSqlDbService(NewsletterDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -43,21 +44,6 @@ namespace NewsletterProject.Services
         }
 
         public void Dispose()
-        {
-
-        }
-    }
-    public class EmailIsAlreadyAddedException : Exception
-    {
-        public EmailIsAlreadyAddedException() : base()
-        {
-
-        }
-        public EmailIsAlreadyAddedException(string message) : base(message)
-        {
-
-        }
-        public EmailIsAlreadyAddedException(string message, Exception innerException) : base(message, innerException)
         {
 
         }

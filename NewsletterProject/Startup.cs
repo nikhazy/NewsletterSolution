@@ -34,7 +34,7 @@ namespace NewsletterProject
             {
                options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
-            services.AddTransient<INewsletterDbService,NewsletterDbService>();
+            services.AddTransient<INewsletterDbService,NewsletterMsSqlDbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
