@@ -7,14 +7,15 @@ using NewsletterProject.Services.DataAccess.Exceptions;
 
 namespace NewsletterProject.Services.DataAccess
 {
-    public class NewsletterSqLiteDbService
+    public class NewsletterSqLiteDbService : INewsletterDbService, IDisposable
     {
 
-        private readonly NewsletterDbContext _dbContext;
+        private readonly NewsletterSqLiteDbContext _dbContext;
 
-        public NewsletterSqLiteDbService(NewsletterDbContext dbContext)
+        public NewsletterSqLiteDbService(NewsletterSqLiteDbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbContext.Database.EnsureCreated();
         }
 
         public void AddNewPersonToNewsletter(NewsletterModel newUser)

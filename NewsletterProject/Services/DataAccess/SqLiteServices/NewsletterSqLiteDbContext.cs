@@ -7,14 +7,13 @@ using NewsletterProject.Models;
 
 namespace NewsletterProject.Services.DataAccess
 {
-    public class NewsletterDbContext : DbContext
+    public class NewsletterSqLiteDbContext : DbContext
     {
-        public NewsletterDbContext(DbContextOptions options) : base(options)
+        public NewsletterSqLiteDbContext(DbContextOptions options) : base(options)
         {
 
         }
 
         public DbSet<NewsletterModel> Newsletter { get; set; }
-
     }
 }

@@ -20,6 +20,7 @@ namespace NewsletterProject
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -30,11 +31,16 @@ namespace NewsletterProject
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<NewsletterDbContext>(options =>
+            services.AddDbContext<NewsletterMsSqlDbContext>(options =>
             {
                options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
-            services.AddTransient<INewsletterDbService,NewsletterMsSqlDbService>();
+            services.AddDbContext<NewsletterSqLiteDbContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("SqLite"));
+            });
+            //services.AddTransient<INewsletterDbService,NewsletterMsSqlDbService>();
+            services.AddTransient<INewsletterDbService, NewsletterSqLiteDbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

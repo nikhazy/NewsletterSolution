@@ -13,9 +13,9 @@ namespace NewsletterProject.Services
 {
     public class NewsletterMsSqlDbService : INewsletterDbService,IDisposable
     {
-        private readonly NewsletterDbContext _dbContext;
+        private readonly NewsletterMsSqlDbContext _dbContext;
 
-        public NewsletterMsSqlDbService(NewsletterDbContext dbContext)
+        public NewsletterMsSqlDbService(NewsletterMsSqlDbContext dbContext)
         {
             _dbContext = dbContext;
         }
