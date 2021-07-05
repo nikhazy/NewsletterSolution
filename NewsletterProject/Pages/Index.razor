@@ -2,8 +2,8 @@
 @using NewsletterProject.Models
 @using NewsletterProject.Services
 @using NewsletterProject.Services.DataAccess 
-@using NewsletterProject.Services.DataAccess.Exceptions 
-@inject INewsletterDbService newsLetterDbService
+@using NewsletterProject.Services.DataAccess.Exceptions
+@inject NewsletterSqLiteDbContext context
 
 
 @*This is the container for the whole page*@
@@ -78,20 +78,20 @@
 
 
 @code{
-    /// <summary>
-    /// The model of the Form, this model countains the informations about the user 
-    /// </summary>
-    NewsletterModel newsLetterModel;
+        /// <summary>
+        /// The model of the Form, this model countains the informations about the user 
+        /// </summary>
+        NewsletterModel newsLetterModel;
 
-    /// <summary>
-    /// This is the warning message variable, if its not null, the page will show a red message
-    /// </summary>
-    string Warning;
+        /// <summary>
+        /// This is the warning message variable, if its not null, the page will show a red message
+        /// </summary>
+        string Warning;
 
-    /// <summary>
-    /// This variable shows, if the Form was submitted successfully (the data is added to the database)
-    /// </summary>
-    bool Successful;
+        /// <summary>
+        /// This variable shows, if the Form was submitted successfully (the data is added to the database)
+        /// </summary>
+        bool Successful;
 
     protected override void OnInitialized()
     {
@@ -137,7 +137,8 @@
         try
         {
             //Try to add the model to the database
-            newsLetterDbService.AddNewPersonToNewsletter(newsLetterModel);
+            context.AddNewPersonToNewsletter(newsLetterModel);
+
             //If the data is successfully added to the database, set the status variables
             Warning = null;
             Successful = true;

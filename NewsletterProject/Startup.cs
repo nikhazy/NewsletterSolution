@@ -42,7 +42,7 @@ namespace NewsletterProject
 
             //I switched from MSSQL to SQLite to be sure it will run on ather machines
             //services.AddTransient<INewsletterDbService,NewsletterMsSqlDbService>();
-            services.AddTransient<INewsletterDbService, NewsletterSqLiteDbService>();
+            //services.AddTransient<INewsletterDbService, NewsletterSqLiteDbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
