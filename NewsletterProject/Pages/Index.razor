@@ -28,12 +28,12 @@
                     <img src="images/envelope_own.png" alt="Email logo" style="width:60%; left: 20%; top: 20%; position:relative" />
                 </div>
 
-                @*This is the body of the newsletter*@
+                @*This is the body of the newsletter form*@
                 <div class="newsletter-background">
 
                     <EditForm Model="@newsLetterModel" OnValidSubmit="@HandleValidTimeSubmit">
                         <DataAnnotationsValidator />
-                        @*This is the email adress field*@
+                        @*This is the email address field*@
                         <div class="newsletter-element">
                             <label for="email" style="font-weight:bold">Email address:</label>
                             <ValidationMessage For="@(()=>newsLetterModel.EmailAddress)" />
@@ -122,14 +122,6 @@
         {
             newsLetterModel.HowTheyHeardAboutUs = null;
         }
-    }
-    /// <summary>
-    /// This method set the reason of signing up property of the NewsletterModel
-    /// </summary>
-    /// <param name="reason">User input(optional)</param>
-    private void SetReasonForSignUp(string reason)
-    {
-        newsLetterModel.ReasonForSigningUp = reason;
     }
 
     private void HandleValidTimeSubmit()
